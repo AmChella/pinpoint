@@ -59,17 +59,19 @@ class MessageBuilder {
             throw new Exception("ics status information not found");
         }
 
-        if (array_key_exists('req_type', $input['ics']) === false) {
-            throw new Exception("ics req_type information not found");
-        }
-
         $ics = $input['ics'];
         $data = $input['email'];
+
 
         $sessionTimings = sprintf("%s - %s",
             $this->getHumanReadableDateFormat($ics['start_date']),
             $this->getHumanReadableDateFormat($ics['end_date'])
         );
+
+        $scheduled = 'scheduled';
+        if ($ics['status'] === 'CANCELLED') {
+            $scheduled = 'cancelled';
+        }
 
         return <<<EOT
         From: chelapandi.soundarapandian@learnship.com
@@ -132,8 +134,8 @@ class MessageBuilder {
                 <tr>
                 <td style="padding:10px 30px;">
                     <font style="font-size: 14px; line-height: 18px;"
-                    >The following session(s) have been scheduled for you. Here are
-                    the details of the new session(s):<br
+                    >The following session(s) have been {$scheduled} for you. Here are
+                    the details of the session(s):<br
                     /></font>
                 </td>
                 </tr>
@@ -276,7 +278,7 @@ class MessageBuilder {
 
         BEGIN:VCALENDAR
         CALSCALE:GREGORIAN
-        METHOD:REQUEST
+        METHOD:{$ics['REQ']}
         PRODID:-//Test Cal//EN
         VERSION:2.0
         BEGIN:VEVENT
