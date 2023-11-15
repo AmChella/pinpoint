@@ -1,0 +1,22 @@
+{
+    "name": "amchella/pinpoint",
+    "description": "Mail Service",
+    "type": "library",
+    "require": {
+        "aws/aws-sdk-php": "^3.285",
+        "symfony/yaml": "7.0.x-dev"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Amchella\\Pinpoint\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Chella S",
+            "email": "2chellaa@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
