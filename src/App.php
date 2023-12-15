@@ -33,39 +33,7 @@ class App {
     }
 
     public function mail(Array $ins) {
-        $startTime = $this->convertTime($ins['start']);
-        $endTime = $this->convertTime($ins['end']);
-        $REQ = 'CANCEL';
-        if ($ins['browser'] === 'Creation') {
-            $REQ = 'REQUEST';
-        }
-
-        $STATUS = $ins['status'];
-        $state = "";
-        if ($REQ === 'CANCEL') {
-            $STATUS = 'CANCELLED';
-            $state = " - $STATUS";
-        }
-
-        $iData = [
-            'ics' => [
-                'uid' => $ins['uid'], 'start_date' => $startTime, 'end_date' => $endTime,
-                'organizer' => 'Chella S', 'summary'=> $ins['summary'],
-                'description'=> $ins['description'],
-                'status' => $STATUS, 'REQ' => $REQ, 'location' => 'Chennai',
-                'organizer_email' => $this->yaml['mail']['organizer']
-            ],
-            'email' => [
-                'LS_LOGO_URL' => $this->yaml['template']['logo_url'],
-                'firstName' => $this->yaml['template']['learner_name'],
-                'hostFirstname' => $this->yaml['template']['trainer_first_name'],
-                'hostLastname' => $this->yaml['template']['trainer_last_name'],
-                'duration' => '60',
-                'CURRENT_YEAR' => 2023, 'subject' => $this->yaml['template']['subject'] . $state
-            ]
-        ];
-
-        $content = $this->messageBuilder->build($iData);
+        $content = $this->messageBuilder->build($ins);
         $message = [
             'FromEmailAddress' => $this->yaml['mail']['from'],
             'Destination' => [
@@ -80,8 +48,27 @@ class App {
         ];
         // return $message;
         // print_r($service->getTemplate('sample_template'));
-        $this->service->sendMessage($message);
-        return true;
+        return $this->service->sendMessage($message);
+    }
+
+
+    public function repeatMail(Array $ins) {
+        $content = $this->messageBuilder->buildRepeat($ins);
+        $message = [
+            'FromEmailAddress' => $this->yaml['mail']['from'],
+            'Destination' => [
+                'ToAddresses' => $this->yaml['mail']['to']
+
+            ],
+            'Content' => [
+                'Raw' => [
+                        'Data' => $content
+                ]
+            ],
+        ];
+        // return $message;
+        // print_r($service->getTemplate('sample_template'));
+        return $this->service->sendMessage($message);
     }
 
     public function getUids() {

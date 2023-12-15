@@ -5,7 +5,7 @@ use Amchella\Pinpoint\App;
 
 try {
     $app = new App();
-    print_r($app->mail($_REQUEST));
+    print_r($app->repeatMail($_REQUEST));
     echo "</br>Invite Successfully Sent!!</br>";
     echo "<a href='\'>Home</a>";
 }

@@ -4,7 +4,8 @@
     "type": "library",
     "require": {
         "aws/aws-sdk-php": "^3.285",
-        "symfony/yaml": "7.0.x-dev"
+        "symfony/yaml": "7.0.x-dev",
+        "spatie/icalendar-generator": "dev-main"
     },
     "license": "MIT",
     "autoload": {

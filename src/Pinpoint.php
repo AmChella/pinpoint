@@ -18,7 +18,8 @@
          * @return void
          */
         public function sendMessage(Array $message) {
-            $this->client->sendEmail($message);
+            // return $message;
+            return $this->client->sendEmail($message);
         }
 
         /**
