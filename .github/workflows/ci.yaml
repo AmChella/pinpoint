@@ -1,0 +1,18 @@
+name: ci runner
+
+on:
+  pull_request:
+
+jobs:
+    Audit:
+        runs-on: ubuntu-latest
+        if: ${{ github.event_name == 'pull_request' }}
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                fetch-depth: 0
+
+            - name: PHP Syntax Checker (Lint)
+              uses: AmChella/php-linter@v7.4
+              with:
+                scan_paths: '.'
